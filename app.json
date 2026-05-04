@@ -27,7 +27,8 @@
         {
           "initialOrientation": "PORTRAIT"
         }
-      ]
+      ],
+      "expo-asset"
     ]
   }
 }
