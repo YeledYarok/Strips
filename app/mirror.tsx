@@ -4,13 +4,25 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
+  useWindowDimensions,
 } from 'react-native';
 import { router } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { getSettings, logStripe, formatMg } from '../src/storage';
 
+const MIN_MG = 100;
+const MAX_MG = 2000;
+
+function stripeSize(mg: number) {
+  const ratio = (mg - MIN_MG) / (MAX_MG - MIN_MG); // 0→1
+  return {
+    widthPct: 0.3 + ratio * 0.35,  // 30% → 65% of screen width
+    height: 2 + ratio * 10,         // 2px → 12px
+  };
+}
+
 export default function MirrorScreen() {
+  const { width } = useWindowDimensions();
   const [mgPerStripe, setMgPerStripe] = useState(500);
   const [logged, setLogged] = useState(false);
   const [darkSurface, setDarkSurface] = useState(true);
@@ -61,7 +73,17 @@ export default function MirrorScreen() {
         <Text style={styles.stripeLabel}>
           {logged ? '✓ logged' : `1 stripe = ${formatMg(mgPerStripe)}`}
         </Text>
-        <View style={[styles.stripe, logged && styles.stripeLogged]} />
+        <View
+          style={[
+            styles.stripe,
+            {
+              width: width * stripeSize(mgPerStripe).widthPct,
+              height: stripeSize(mgPerStripe).height,
+              borderRadius: stripeSize(mgPerStripe).height / 2,
+            },
+            logged && styles.stripeLogged,
+          ]}
+        />
       </View>
 
       {/* Log button */}
@@ -140,10 +162,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   stripe: {
-    width: '56%',
-    height: 3,
     backgroundColor: '#fff',
-    borderRadius: 2,
     shadowColor: '#fff',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,

@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
+  Image,
 } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
 import { getTodayMg, getTodayStripes, formatMg } from '../src/storage';
@@ -53,8 +54,11 @@ export default function HomeScreen() {
         onPress={() => router.push('/mirror')}
         activeOpacity={0.7}
       >
-        <View style={styles.pileInner} />
-        <View style={styles.pileBase} />
+        <Image
+          source={require('../assets/powder.png')}
+          style={styles.pileImage}
+          resizeMode="contain"
+        />
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -110,27 +114,12 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   pileContainer: {
+    width: '100%',
     alignItems: 'center',
-    paddingBottom: 50,
-    gap: 0,
+    paddingBottom: 40,
   },
-  pileInner: {
-    width: 260,
-    height: 14,
-    backgroundColor: '#d8d8d8',
-    borderRadius: 100,
-    shadowColor: '#fff',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.25,
-    shadowRadius: 16,
-    elevation: 6,
-  },
-  pileBase: {
-    width: 340,
-    height: 8,
-    backgroundColor: '#b0b0b0',
-    borderRadius: 100,
-    marginTop: -4,
-    opacity: 0.6,
+  pileImage: {
+    width: '100%',
+    height: 80,
   },
 });
