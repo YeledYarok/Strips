@@ -28,7 +28,8 @@
           "initialOrientation": "PORTRAIT"
         }
       ],
-      "expo-asset"
+      "expo-asset",
+      "expo-font"
     ]
   }
 }
